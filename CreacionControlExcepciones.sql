@@ -70,5 +70,48 @@ end;
 -- en caso de que nos encuentre, en ese caso devuelve un 0, pasale
 -- otra parametro si supera ese limite, lanzaremos una exepcion propia u devolveremos un 0.
 
+create or replace FUNCTION F_totalPedido(v_codigopedido pedido.codigopedido%TYPE,v_limite NUMBER)
+RETURN NUMBER
+as 
+    --Definir variables 
+    v_total number(8) := 0;
+    limite_superado EXCEPTION;
+begin
+    select sum(dp.cantidad * dp.precio_unitario) into v_total
+    from pedido p, detallePedido dp
+    where p.codigopedido = dp.codigopedido and p.codigopedido = v_codigopedido;
+    
+    if v_total is null then 
+        raise no_data_found;
+    else
+        if v_total > v_limite then
+            raise limite_superado;
+        else 
+            return v_total;
+        end if;
+    end if;
+    
+EXCEPTION
+    when no_data_found then 
+        dbms_output.put_line('No existe el pedido');    
+        return 0;
+    WHEN limite_superado then  
+        dbms_output.put_line('Se ha superado el limite');    
+        return 0;
+end;
+/
+
+DECLARE 
+    v_codigopedido pedido.codigopedido%TYPE := &codigo;
+    v_limite number(8) := &limite;
+    v_total number(8);
+begin
+    v_total := f_totalPedido(v_codigopedido, v_limite);
+    dbms_output.put_line('El pedido es de ' || v_total );    
+
+end;
+    
+
+
 
 
