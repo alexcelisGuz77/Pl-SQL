@@ -160,7 +160,104 @@ begin
 end;
 
 
-
-
-
 -- mostar toda la informacion de un pedido dado su codigo (fecha , entreaga fechapedido, estado,comentarios)
+CREATE TABLE pedido (
+    codigopedido     NUMBER PRIMARY KEY,
+    nombrepedido     VARCHAR2(100),
+    telefono         VARCHAR2(20),
+    fax              VARCHAR2(20),
+    lineadireccion   VARCHAR2(200),
+    fechapedido      DATE,
+    fechaesperada    DATE,
+    fechaentrega     DATE,
+    estado           VARCHAR2(50),
+    comentarios      VARCHAR2(4000)
+);
+
+
+INSERT INTO pedido VALUES (
+    1,
+    'Pedido A',
+    '555-1234',
+    '555-4321',
+    'Calle 123, Ciudad',
+    TO_DATE('2025-06-01', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-10', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-09', 'YYYY-MM-DD'),
+    'Enviado',
+    'Primera orden de pedido.'
+);
+
+INSERT INTO pedido VALUES (
+    2,
+    'Pedido B',
+    '555-5678',
+    NULL,
+    'Av. Central 456, Ciudad',
+    TO_DATE('2025-06-02', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-12', 'YYYY-MM-DD'),
+    NULL,
+    'Pendiente',
+    'Pedido urgente.'
+);
+
+INSERT INTO pedido VALUES (
+    3,
+    'Pedido C',
+    '555-8765',
+    '555-8765',
+    'Boulevard 789, Ciudad',
+    TO_DATE('2025-06-03', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-13', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-15', 'YYYY-MM-DD'),
+    'Entregado',
+    NULL
+);
+
+INSERT INTO pedido VALUES (
+    4,
+    'Pedido D',
+    '555-4321',
+    '555-1234',
+    'Paseo 101, Ciudad',
+    TO_DATE('2025-06-04', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-14', 'YYYY-MM-DD'),
+    NULL,
+    'En proceso',
+    'Esperando confirmación del cliente.'
+);
+
+INSERT INTO pedido VALUES (
+    5,
+    'Pedido E',
+    '555-0000',
+    NULL,
+    'Calle Nueva 202, Ciudad',
+    TO_DATE('2025-06-05', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-15', 'YYYY-MM-DD'),
+    NULL,
+    'Cancelado',
+    'Pedido cancelado por falta de stock.'
+);
+
+
+
+declare 
+    v_codigopedido pedido.codigopedido%TYPE := &codigo;
+    v_pedido pedido%rowtype;
+begin
+    SELECT * into v_pedido
+    from pedido
+    where codigopedido = v_codigopedido;
+    
+        dbms_output.put_line('El nombre del pedido es: ' || v_pedido.nombrepedido
+        || 'La fecha pedido: ' || v_pedido.fechapedido
+        || 'La fecha esperada: ' || v_pedido.fechaesperada
+        || 'La fecha entrega: ' || v_pedido.fechaentrega
+        || 'Estado: ' || v_pedido.estado
+        || 'Comentarios: ' || v_pedido.comentarios
+        );
+end;
+
+
+ 
