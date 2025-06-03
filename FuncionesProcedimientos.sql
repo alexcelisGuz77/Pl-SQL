@@ -32,3 +32,22 @@ end;
 -- pasa el codigo por un parametro
 
 
+create or replace procedure P_totalPedido(v_codigopedido pedido.codigopedido%TYPE)
+as 
+    --Definir variables 
+    v_total number(8) := 0;
+begin
+    select sum(dp.cantidad * dp.precio_unitario) into v_total
+    from pedido p, detallePedido dp
+    where p.codigopedido = dp.codigopedido and p.codigopedido = v_codigopedido;
+    
+    dbms_output.put_line('El pedido total es: ' || v_total);    
+end;
+/
+
+DECLARE 
+    v_codigopedido pedido.codigopedido%TYPE := &codigo;
+begin
+    P_totalPedido(v_codigopedido);
+end;
+    
