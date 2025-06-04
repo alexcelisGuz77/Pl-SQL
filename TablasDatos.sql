@@ -259,3 +259,13 @@ Insert into OFICINAS (CODIGOOFICINA,CIUDAD,PAIS,REGION,CODIGOPOSTAL,TELEFONO,LIN
   PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
   BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
   TABLESPACE "USERS"  ENABLE;
+
+
+  ALTER TABLE productos ADD cantidadenstock NUMBER(10,2);
+
+UPDATE productos SET cantidadenstock = 25 WHERE codigoproducto = 'P001';
+UPDATE productos SET cantidadenstock = 10 WHERE codigoproducto = 'P002';
+UPDATE productos SET cantidadenstock = 50 WHERE codigoproducto = 'P003';
+UPDATE productos SET cantidadenstock = 5  WHERE codigoproducto = 'P004';
+UPDATE productos SET cantidadenstock = 30 WHERE codigoproducto = 'P005';
+
